@@ -1,9 +1,9 @@
-# здесь будет меню программы
-from list import list_product
+import programm_db as db
 
 
 def starting_programm():
     print('Добро пожаловать в Список продуктов')
+    db.create_db()
     command = input('Введите свой запрос: ')
     return command.capitalize()
 
@@ -18,15 +18,28 @@ def working_programm(command):
         while True:
             product = input('Введите продукт: ')
             if product == '' or product == 'Стоп':
+                print('\033[H\033[J', end='')  # очистка терминала
+                print('Список продуктов: ')
+                db.list_product_db()
                 break
             else:
-                list_product.append(product)
+                db.add_product_db(product)
+    elif command == 'Удалить таблицу':
+        db.delete_db()
     elif command == 'Удалить':
-        pass
+        while True:
+            product = input('Введите продукт: ')
+            if product == '' or product == 'Стоп':
+                print('\033[H\033[J', end='')  # очистка терминала
+                print('Список продуктов: ')
+                db.list_product_db()
+                break
+            else:
+                db.del_product_db(product)
     elif command == 'Список':
+        print('\033[H\033[J', end='')
         print('Список продуктов: ')
-        for i in range(len(list_product)):
-            print(f'{i + 1}:{list_product[i]}', sep='\n')
+        db.list_product_db()
 
 
 # Работа самой программы
