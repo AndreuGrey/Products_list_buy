@@ -19,6 +19,22 @@ def create_db():  # Создаёт таблицу
         """)
 
 
+def check_product_db(product):  # Проверяет есть ли продукт в таблице
+    with sq.connect("my_products.db") as con:
+        cur = con.cursor()
+
+        cur.execute("SELECT name FROM products")
+
+        rows = cur.fetchall()
+        for row in rows:
+            print(row)
+            if row == product:
+                print("Этот продукт уже есть в списке!")
+                return False
+            else:
+                return True
+
+
 def add_product_db(product):  # Добавление продукта в таблицу
     with sq.connect("my_products.db") as con:
         cur = con.cursor()
@@ -41,4 +57,10 @@ def del_product_db(product):  # Удаление продукта из табл�
     with sq.connect("my_products.db") as con:
         cur = con.cursor()
 
-        cur.execute("DELETE FROM products WHERE name == (?)", (product,))
+        if product == 'Все' or product == 'Всё':
+            cur.execute("DROP TABLE IF EXISTS products")
+            print('Удалены все продукты из списка!')
+            create_db()
+        else:
+            cur.execute("DELETE FROM products WHERE name == (?)", (product,))
+            print(f'Продукт - {product} удалён!')

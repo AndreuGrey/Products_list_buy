@@ -35,7 +35,9 @@ def working_programm(command):
                 db.list_product_db()
                 break
             else:
+                print('\033[H\033[J', end='')
                 db.del_product_db(product)
+                break
     elif command == 'Список':
         print('\033[H\033[J', end='')
         print('Список продуктов: ')
