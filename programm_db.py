@@ -19,27 +19,26 @@ def create_db():  # Создаёт таблицу
         """)
 
 
-def check_product_db(product):  # Проверяет есть ли продукт в таблице
+def check_product_db(name):  # Проверяет есть ли продукт в таблице(не работает)
     with sq.connect("my_products.db") as con:
         cur = con.cursor()
 
         cur.execute("SELECT name FROM products")
 
-        rows = cur.fetchall()
-        for row in rows:
-            print(row)
-            if row == product:
+        products = cur.fetchall()  # Не работает выборка продукта
+        for product in products:
+            if product[1] == name:
                 print("Этот продукт уже есть в списке!")
                 return False
             else:
                 return True
 
 
-def add_product_db(product):  # Добавление продукта в таблицу
+def add_product_db(name):  # Добавление продукта в таблицу
     with sq.connect("my_products.db") as con:
         cur = con.cursor()
 
-        cur.execute("INSERT INTO products (name) VALUES (?)", (product,))
+        cur.execute("INSERT INTO products (name) VALUES (?)", (name,))
 
 
 def list_product_db():  # Выдаёт список продуктов в таблице
@@ -48,19 +47,20 @@ def list_product_db():  # Выдаёт список продуктов в таб
 
         cur.execute("SELECT * FROM products")
 
-        rows = cur.fetchall()
-        for row in rows:
-            print(row)
+        products = cur.fetchall()  # Не могу сделать вывод (1. Сыр) и тд.
+        for product in products:
+            print(f"{product[0]}: {product[1]}")  # Выводит так: (id: name)
 
 
-def del_product_db(product):  # Удаление продукта из таблицы
+def del_product_db(name):  # Удаление продукта из таблицы
     with sq.connect("my_products.db") as con:
         cur = con.cursor()
 
-        if product == 'Все' or product == 'Всё':
+        if name == 'Все' or name == 'Всё':  # Удаляет все продукты
             cur.execute("DROP TABLE IF EXISTS products")
             print('Удалены все продукты из списка!')
             create_db()
-        else:
-            cur.execute("DELETE FROM products WHERE name == (?)", (product,))
-            print(f'Продукт - {product} удалён!')
+        else:  # Удаляет выбранный продукт
+            cur.execute(
+                "DELETE FROM products WHERE name == (?)", (name,))
+            print(f'Продукт - "{name}" удалён!')

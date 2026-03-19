@@ -26,6 +26,12 @@ def working_programm(command):
                 db.add_product_db(product)
     elif command == 'Удалить таблицу':
         db.delete_db()
+    elif command == 'Перезапустить таблицу':
+        db.delete_db()
+        db.create_db()
+    elif command == 'Проверка':
+        product = input('Введите продукт: ')
+        db.check_product_db(product)
     elif command == 'Удалить':
         while True:
             product = input('Введите продукт: ')
