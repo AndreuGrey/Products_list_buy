@@ -23,15 +23,18 @@ def working_programm(command):
                 db.list_product_db()
                 break
             else:
-                db.add_product_db(product)
+                if db.check_product_db(product) != False:
+                    db.add_product_db(product)
+                else:
+                    print(f"<{product}> уже есть в списке!")
+                    continue
     elif command == 'Удалить таблицу':
         db.delete_db()
     elif command == 'Перезапустить таблицу':
         db.delete_db()
         db.create_db()
     elif command == 'Проверка':
-        product = input('Введите продукт: ')
-        db.check_product_db(product)
+        db.check_count()
     elif command == 'Удалить':
         while True:
             product = input('Введите продукт: ')
