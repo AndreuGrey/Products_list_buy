@@ -8,6 +8,13 @@ def delete_db():  # Удаляет таблицу
         cur.execute("DROP TABLE IF EXISTS products")
 
 
+def recreated_db():  # Перезапускает таблицу
+    with sq.connect("my_products.db") as con:
+        cur = con.cursor()
+
+        cur.execute("TRUNCATE TABLE IF EXISTS products")
+
+
 def create_db():  # Создаёт таблицу
     with sq.connect("my_products.db") as con:
         cur = con.cursor()

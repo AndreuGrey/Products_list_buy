@@ -31,8 +31,7 @@ def working_programm(command):
     elif command == 'Удалить таблицу':
         db.delete_db()
     elif command == 'Перезапустить таблицу':
-        db.delete_db()
-        db.create_db()
+        db.recreated_db()
     elif command == 'Проверка':
         db.check_count()
     elif command == 'Удалить':
